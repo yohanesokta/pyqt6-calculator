@@ -20,7 +20,7 @@ class ButtonOperation(QPushButton):
             font = QFont()
             font.setPointSize(fontSize)
             self.setFont(font)
-        self.clicked.connect(lambda : callback(text))
+        self.clicked.connect(lambda : callback(str(text)))
 
 #  ** How to use **
 #  fungsi controler dari class MathExecs gunakan untuk push number dan eksekusi operator
@@ -28,30 +28,27 @@ class ButtonOperation(QPushButton):
 
 class MathExecs:
     def __init__(self,textState):
-        self.listNumber:list = []
+        self.listNumber:string = ""
         self.operator = None
         self.textState = textState
     def push_number(self, other):
-        self.listNumber.append(other)
-        self.textState.setText(self.__str__())
+        self.listNumber += other
+        self.textState.setText(self.listNumber)
     def push_operator(self,operator):
         self.calculate()
         if (operator != "=" and str(self.listNumber[-1]) not in "-+/*"):
-            self.listNumber.append(operator)
+            self.listNumber += operator
             self.operator = operator
-        self.textState.setText(self.__str__())
+        self.textState.setText(self.listNumber)
     def calculate(self):
         if (self.operator != None and str(self.listNumber[-1]) not in "-+/*"):
-            operasi = re.sub(r'\b0+(\d+)', r'\1',self.__str__())
-            self.listNumber :list = str(eval(operasi)).split()
+            operasi = re.sub(r'\b0+(\d+)', r'\1',self.listNumber)
+            self.listNumber = str(eval(operasi))
             self.operator = None
     def clearState(self,_):
-        self.listNumber = []
+        self.listNumber = ""
         self.operator = None
-        self.textState.setText(self.__str__())
+        self.textState.setText(self.listNumber)
 
     def __str__(self):
-        if (self.listNumber != []):
-            return "".join([str(num) for num in self.listNumber])
-        else:
-            return ""
+       return self.listNumber
