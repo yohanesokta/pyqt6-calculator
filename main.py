@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
 
 from layouts.grid_layout import GridCalculator # -> memanggil file grid layout
 from layouts.kombinasi_layout import KombinasiLayout # -> memanggil file kombinasi layout
+from layouts.menu import MenuBar
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -28,6 +29,12 @@ class MainWindow(QMainWindow):
         kombinasi_widget = KombinasiLayout()
         tabs.addTab(kombinasi_widget, "Kombinasi Layout")
 
+        # Menu
+        menu = MenuBar()
+        self.setMenuBar(menu.menuBar())
+        def perform_operation(operator):
+            print(f"Melakukan operasi: {operator}")
+        menu.perform_operation = perform_operation
         self.setCentralWidget(tabs)
 
 app = QApplication(sys.argv)
