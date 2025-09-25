@@ -42,13 +42,22 @@ class MathExecs:
         self.listNumber += other
         self.change_text_edit()
     def push_operator(self,operator):
-        self.calculate()
-        if (operator != "=" and str(self.listNumber[-1]) not in "-+/*"):
+        lastInput = self.listNumber[-1] if len(self.listNumber) > 0 else ""
+        self.calculate(lastInput)
+        
+        if operator == "=":
+            self.change_text_edit()
+            return
+
+        if lastInput in "+/*" and operator == "-":
+            self.listNumber += operator
+        elif lastInput not in "-+/*":
             self.listNumber += operator
             self.operator = operator
         self.change_text_edit()
-    def calculate(self):
-        if (self.operator != None and str(self.listNumber[-1]) not in "-+/*"):
+        
+    def calculate(self,lastInput):
+        if (self.operator != None and lastInput not in "-+/*"):
             operasi = re.sub(r'\b0+(\d+)', r'\1',self.listNumber)
             self.listNumber = str(eval(operasi))
             self.operator = None
