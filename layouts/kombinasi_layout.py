@@ -10,40 +10,41 @@ font_size = 16
 fixed_size = 60
 
 class KombinasiLayout(QWidget):
-    def __init__(self):
+    def __init__(self, controller: MathExecs):
         super().__init__()
 
-        input_text = QTextEdit()
-        controllers = MathExecs(input_text)
+        input_text = QTextEdit() 
         input_text.setFontPointSize(font_size)
 
+        controller.add_text_edit(input_text) # menambahkan text edit ke controller
+        
         # Layout utama vertikal
         main_layout = QVBoxLayout()
         main_layout.addWidget(input_text)
 
         # Baris 1 (horizontal)
         row1 = QHBoxLayout()
-        row1.addWidget(ButtonOperation(9, controllers.push_number, fixed_size, font_size))
-        row1.addWidget(ButtonOperation("AC", controllers.clearState, fixed_size, font_size))
-        row1.addWidget(ButtonOperation("*", controllers.push_operator, fixed_size, font_size))
+        row1.addWidget(ButtonOperation(9, controller.push_number, fixed_size, font_size))
+        row1.addWidget(ButtonOperation("AC", controller.clearState, fixed_size, font_size))
+        row1.addWidget(ButtonOperation("*", controller.push_operator, fixed_size, font_size))
 
         # Baris 2 (horizontal)
         row2 = QHBoxLayout()
-        row2.addWidget(ButtonOperation(5, controllers.push_number, fixed_size, font_size))
-        row2.addWidget(ButtonOperation(6, controllers.push_number, fixed_size, font_size))
-        row2.addWidget(ButtonOperation("/", controllers.push_operator, fixed_size, font_size))
+        row2.addWidget(ButtonOperation(5, controller.push_number, fixed_size, font_size))
+        row2.addWidget(ButtonOperation(6, controller.push_number, fixed_size, font_size))
+        row2.addWidget(ButtonOperation("/", controller.push_operator, fixed_size, font_size))
 
         # Baris 3 (horizontal)
         row3 = QHBoxLayout()
-        row3.addWidget(ButtonOperation(1, controllers.push_number, fixed_size, font_size))
-        row3.addWidget(ButtonOperation(3, controllers.push_number, fixed_size, font_size))
-        row3.addWidget(ButtonOperation("-", controllers.push_operator, fixed_size, font_size))
+        row3.addWidget(ButtonOperation(1, controller.push_number, fixed_size, font_size))
+        row3.addWidget(ButtonOperation(3, controller.push_number, fixed_size, font_size))
+        row3.addWidget(ButtonOperation("-", controller.push_operator, fixed_size, font_size))
 
         # Baris 4 (horizontal)
         row4 = QHBoxLayout()
-        row4.addWidget(ButtonOperation(0, controllers.push_number, fixed_size, font_size))
-        row4.addWidget(ButtonOperation("=", controllers.push_operator, fixed_size, font_size))
-        row4.addWidget(ButtonOperation("+", controllers.push_operator, fixed_size, font_size))
+        row4.addWidget(ButtonOperation(0, controller.push_number, fixed_size, font_size))
+        row4.addWidget(ButtonOperation("=", controller.push_operator, fixed_size, font_size))
+        row4.addWidget(ButtonOperation("+", controller.push_operator, fixed_size, font_size))
 
         # Tambahkan semua baris ke layout utama
         main_layout.addLayout(row1)
