@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import  QPushButton
+from PyQt6.QtWidgets import  QPushButton, QTextEdit
 import re
 
 #  ** How to use **
@@ -27,19 +27,26 @@ class ButtonOperation(QPushButton):
 #  psuh number dan push opertor di sini langsung mengeksekusi sesuai operasi matematika
 
 class MathExecs:
-    def __init__(self,textState):
-        self.listNumber:string = ""
+    def __init__(self):
+        self.listNumber:str = ""
         self.operator = None
-        self.textState = textState
+        self.text_edits: list[QTextEdit] = [] # ini buat nampung text edit
+        
+    def add_text_edit(self, widget: QTextEdit):
+        self.text_edits.append(widget)
+
+    def change_text_edit(self):
+        for widget in self.text_edits:
+            widget.setText(self.listNumber)
     def push_number(self, other):
         self.listNumber += other
-        self.textState.setText(self.listNumber)
+        self.change_text_edit()
     def push_operator(self,operator):
         self.calculate()
         if (operator != "=" and str(self.listNumber[-1]) not in "-+/*"):
             self.listNumber += operator
             self.operator = operator
-        self.textState.setText(self.listNumber)
+        self.change_text_edit()
     def calculate(self):
         if (self.operator != None and str(self.listNumber[-1]) not in "-+/*"):
             operasi = re.sub(r'\b0+(\d+)', r'\1',self.listNumber)
@@ -48,7 +55,7 @@ class MathExecs:
     def clearState(self,_):
         self.listNumber = ""
         self.operator = None
-        self.textState.setText(self.listNumber)
+        self.change_text_edit()
 
     def __str__(self):
        return self.listNumber
